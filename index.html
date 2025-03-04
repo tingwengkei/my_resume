@@ -33,13 +33,19 @@
       src="https://kit.fontawesome.com/708e97025f.js"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="profile.js" defer></script>
     <script src="index.js" defer></script>
   </head>
 
   <body>
     <div class="container">
-      <div class="inner-container">
+      <!-- <div>
+        <button onclick="downloadPDF()">Download PDF</button>
+      </div> -->
+      <div class="inner-container" id="toPDF">
         <div class="inner-container-left">
           <section class="header info-row">
             <div class="header-title" id="profileName">Your Name</div>
@@ -104,6 +110,17 @@
             </div>
             <div class="cat-list-body">
               <ul id="skillList" class="cat-list"></ul>
+            </div>
+          </section>
+          <section class="info-row">
+            <div class="cat-header">
+              <span class="cat-indicator">
+                <i class="fas fa-code" aria-hidden="true"></i>
+              </span>
+              <span class="cat-title">Languages</span>
+            </div>
+            <div class="cat-list-body">
+              <ul id="languagesList" class="cat-list"></ul>
             </div>
           </section>
         </div>

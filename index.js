@@ -128,8 +128,8 @@ const setProjects = (projects) => {
   });
 };
 
-const setSkills = (skills) => {
-  const skillList = document.querySelector("#skillList");
+const setSkills = (skills,uiID) => {
+  const skillList = document.querySelector("#"+uiID);
 
   skills.forEach((skill) => {
     const catSkillItem = document.createElement("li");
@@ -276,15 +276,53 @@ const setCatagoryHeader = (title) => {
   return catHeader;
 };
 
+function downloadPDF() {
+  const adjustSize = 1;
+  let element = document.getElementById("toPDF");
+  element.style.minHeight = "100vh";
+
+  element.querySelectorAll("*").forEach((el, index) => {
+      let currentSize = window.getComputedStyle(el).fontSize;
+      let newSize = (parseFloat(currentSize) - adjustSize) + "px";
+
+      el.style.fontSize = newSize; // Apply new font size
+  });
+
+  html2pdf()
+      .set({
+          margin: [10, 10, 10, 0], // [top, left, bottom, right] padding in mm
+          filename: 'download.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] } // Ensure content doesn't get cut off}
+      })
+      .from(element)
+      .save()
+      .then(() => {
+        element.querySelectorAll("*").forEach((el, index) => {
+          let currentSize = window.getComputedStyle(el).fontSize;
+          let newSize = (parseFloat(currentSize) + adjustSize + 1) + "px";
+    
+          el.style.fontSize = newSize; // Apply new font size
+      });
+      });
+}
+
+
 //  Entry Function, IIFE
 (() => {
+  let lastSegment = new URLSearchParams(window.location.search).get("name");
+  if (!Object.keys(profileData).includes(lastSegment)) lastSegment = 'twk';
+  let profileData2 = profileData[lastSegment];
   // Call functions to load profile
-  setTitle(profileData);
-  setLinks(profileData.links);
-  setExperience(profileData.experiences);
-  setProjects(profileData.projects);
-  setSkills(profileData.skills);
-  setEducation(profileData.education);
-  setCertification(profileData.certifications);
-  // setEvents(profileData.events);
+  setTitle(profileData2);
+  setLinks(profileData2.links);
+  setExperience(profileData2.experiences);
+  setProjects(profileData2.projects);
+  setSkills(profileData2.language,'languagesList');
+  setSkills(profileData2.skills,'skillList');
+  setEducation(profileData2.education);
+  setCertification(profileData2.certifications);
+  // setEvents(profileData2.events);
 })();
