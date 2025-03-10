@@ -17,6 +17,28 @@ html {
   /* border: dashed 1px red; */
 }
 
+.download-button {
+  background-color: #1fa44f; /* Primary color */
+  color: white; /* Text color */
+  border: 2px solid hsl(141, 69%, 24%); /* Border using HSL */
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.download-button:hover {
+  background-color: hsl(141, 69%, 24%); /* Darker green on hover */
+  border-color: #1fa44f;
+}
+
+.download-button:active {
+  background-color: hsl(141, 69%, 20%);
+  border-color: #1fa44f;
+}
+
 /* Links */
 a {
   text-decoration: none !important;
@@ -42,11 +64,13 @@ strong {
 .inner-container-left {
   width: 30%;
   padding: 10px;
+  padding-right: 15px;
 }
 
 .inner-container-right {
   width: 70%;
   padding: 10px;
+  padding-left: 15px;
 }
 
 .link-title {
@@ -70,7 +94,7 @@ strong {
 }
 
 .header-title {
-  font-size: 1.8rem;
+  font-size: 28.8px;
   font-weight: 300;
   letter-spacing: 0.4rem;
   text-transform: uppercase;
@@ -127,7 +151,7 @@ strong {
 
 .cat-header {
   padding: 0.5rem 0;
-  font-size: 1.1rem;
+  font-size: 17.6px;
   display: flex;
   align-items: center;
   border-bottom: 1px solid #f0f0f0;
@@ -268,7 +292,7 @@ li {
   background-color: var(--main-color);
   color: #fff;
   border-radius: 3rem;
-  font-size: 0.9rem;
+  font-size: 14.4px;
 }
 
 .skill-progress-track {

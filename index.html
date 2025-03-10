@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta name="viewport" />
+    <meta charset="UTF-8">
     <meta
       name="description"
       content="Versatile software engineer with 6+ years of experience in backend and frontend development. Passionate about building secure, scalable, and user-friendly systems. Skilled in managing multiple deadlines and leveraging the latest technologies for efficient full-stack development."
@@ -19,7 +20,7 @@
       property="og:description"
       content="Experienced in backend, frontend and full-stack development with expertise in HTML5, CSS3, JavaScript, PHP, Laravel and Python."
     />
-    <title>Resume | Ting Weng Kei</title>
+    <title>Resume</title>
     <link
       href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,600&display=swap"
       rel="stylesheet"
@@ -42,9 +43,9 @@
 
   <body>
     <div class="container">
-      <!-- <div>
-        <button onclick="downloadPDF()">Download PDF</button>
-      </div> -->
+      <div>
+        <button onclick="downloadPDF()" class="download-button">Download PDF / 下载PDF</button>
+      </div>
       <div class="inner-container" id="toPDF">
         <div class="inner-container-left">
           <section class="header info-row">
@@ -81,23 +82,10 @@
               <span class="cat-indicator">
                 <i class="fas fa-laptop-code" aria-hidden="true"></i>
               </span>
-              <span class="cat-title">Summary</span>
+              <span class="cat-title" id="summaryTitle">Summary</span>
             </div>
             <div class="cat-list-body">
               <div id="aboutIntro" class="cat-list"></div>
-            </div>
-          </section>
-
-          <!-- Educaation listing section -->
-          <section class="info-row">
-            <div class="cat-header">
-              <span class="cat-indicator">
-                <i class="fas fa-graduation-cap" aria-hidden="true"></i>
-              </span>
-              <span class="cat-title">Education</span>
-            </div>
-            <div class="cat-list-body">
-              <ul id="educationList" class="cat-list"></ul>
             </div>
           </section>
 
@@ -106,7 +94,7 @@
               <span class="cat-indicator">
                 <i class="fas fa-code" aria-hidden="true"></i>
               </span>
-              <span class="cat-title">Skills</span>
+              <span class="cat-title" id="skillTitle">Skills</span>
             </div>
             <div class="cat-list-body">
               <ul id="skillList" class="cat-list"></ul>
@@ -117,7 +105,7 @@
               <span class="cat-indicator">
                 <i class="fas fa-code" aria-hidden="true"></i>
               </span>
-              <span class="cat-title">Languages</span>
+              <span class="cat-title" id="languageTitle">Languages</span>
             </div>
             <div class="cat-list-body">
               <ul id="languagesList" class="cat-list"></ul>
@@ -125,13 +113,26 @@
           </section>
         </div>
         <div class="inner-container-right">
+          <!-- Educaation listing section -->
+          <section class="info-row">
+            <div class="cat-header">
+              <span class="cat-indicator">
+                <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+              </span>
+              <span class="cat-title" id="educationTitle">Education</span>
+            </div>
+            <div class="cat-list-body">
+              <ul id="educationList" class="cat-list"></ul>
+            </div>
+          </section>
+
           <!-- Work experience section -->
           <section class="info-row">
             <div class="cat-header">
               <span class="cat-indicator">
                 <i class="fas fa-briefcase" aria-hidden="true"></i>
               </span>
-              <span class="cat-title">Experience</span>
+              <span class="cat-title" id="experienceTitle">Experience</span>
             </div>
             <div class="cat-list-body">
               <ul id="experienceList" class="cat-list"></ul>
@@ -146,7 +147,7 @@
           <span class="cat-indicator">
             <i class="fas fa-code-branch" aria-hidden="true"></i>
           </span>
-          <span class="cat-title">Personal Projects</span>
+          <span class="cat-title" id="personalProjectTitle">Personal Projects</span>
         </div>
         <div class="cat-list-body">
           <ul id="projectList" class="cat-list"></ul>
@@ -159,7 +160,7 @@
           <span class="cat-indicator">
             <i class="fas fa-certificate" aria-hidden="true"></i>
           </span>
-          <span class="cat-title">Certifications</span>
+          <span class="cat-title" id="certificationTitle">Certifications</span>
         </div>
         <div class="cat-list-body">
           <ul id="certList" class="cat-list"></ul>

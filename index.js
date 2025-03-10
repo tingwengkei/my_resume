@@ -1,10 +1,28 @@
+const lang = new URLSearchParams(window.location.search).get("lang") ?? 'en';
+
+function setLanguage (data) {
+  return data[lang] ?? data['en'] ?? data;
+}
+
+function setChineseForTitle () {
+  if (lang === 'cn') {
+    document.querySelector("#summaryTitle").innerHTML = "概括";
+    document.querySelector("#skillTitle").innerHTML = "技能";
+    document.querySelector("#languageTitle").innerHTML = "语言";
+    document.querySelector("#educationTitle").innerHTML = "学历";
+    document.querySelector("#experienceTitle").innerHTML = "工作经验";
+    // document.querySelector("#personalProjectTitle").innerHTML = "";
+    // document.querySelector("#certificationTitle").innerHTML = "";
+  }
+}
+
 /* Define all the functions */
 const setTitle = (data) => {
   // Set page title
   document.title = `${data.title} | ${data.name}`;
   document.querySelector("#profileName").innerHTML = data.name;
-  document.querySelector("#profileSubTitle").innerHTML = data.sub_title;
-  document.querySelector("#aboutIntro").innerHTML = data.about.intro;
+  document.querySelector("#profileSubTitle").innerHTML = setLanguage(data.sub_title);
+  document.querySelector("#aboutIntro").innerHTML = setLanguage(data.about.intro);
   document.querySelector("#contactEmail").innerHTML = data.about.contact.email;
   document
     .querySelector("#contactEmail")
@@ -52,12 +70,18 @@ const setEducation = (education) => {
     eduAlma.innerHTML = edu.alma;
     eduHeader.appendChild(eduAlma);
 
-    const eduDuration = document.createElement("span");
-    eduDuration.className = "edu-duration";
-    eduDuration.innerHTML = edu.duration;
-    eduHeader.appendChild(eduDuration);
+    // const eduDuration = document.createElement("span");
+    // eduDuration.className = "edu-duration";
+    // eduDuration.innerHTML = edu.duration;
+    // eduHeader.appendChild(eduDuration);
 
     li.appendChild(eduHeader);
+
+    const eduDuration = document.createElement("div");
+    eduDuration.className = "edu-class-data";
+    eduDuration.innerHTML = setLanguage(edu.duration);
+
+    li.appendChild(eduDuration);
 
     const eduClassData = document.createElement("div");
     eduClassData.className = "edu-class-data";
@@ -137,11 +161,11 @@ const setSkills = (skills,uiID) => {
 
     const skillTitle = document.createElement("span");
     skillTitle.className = "cat-skill-type";
-    skillTitle.innerText = skill.title + ": ";
+    skillTitle.innerText = setLanguage(skill.title) + ": ";
 
     const skillValue = document.createElement("span");
     skillValue.className = "skill-value";
-    skillValue.innerText = skill.value;
+    skillValue.innerText = setLanguage(skill.value);
 
     catSkillItem.appendChild(skillTitle);
     catSkillItem.appendChild(skillValue);
@@ -166,19 +190,26 @@ const setExperience = (experiences) => {
     expTitle.className = "exp-title";
     expTitle.innerHTML = `&nbsp- ${exper.title}`;
 
-    const expDura = document.createElement("span");
-    expDura.className = "exp-title";
-    expDura.innerText = `, (${exper.date})`;
+    // const expDura = document.createElement("span");
+    // expDura.className = "exp-title";
+    // expDura.innerText = `, (${exper.date})`;
 
     expItem.appendChild(expTitle);
-    expItem.appendChild(expDura);
+    // expItem.appendChild(expDura);
     expListItem.appendChild(expItem);
 
-    if (exper.details) {
-      const expDetails = document.createElement("ul");
-      expDetails.className = "expDet";
+    const expDetails = document.createElement("ul");
+    expDetails.className = "expDet";
+    const detItem = document.createElement("li");
+    detItem.innerHTML = " <strong>" + setLanguage(exper.date) + "</strong>";
+    expDetails.appendChild(detItem);
 
-      exper.details.forEach((dText) => {
+    let experDetails = setLanguage(exper.details);
+    if (experDetails) {
+      // const expDetails = document.createElement("ul");
+      // expDetails.className = "expDet";
+
+      experDetails.forEach((dText) => {
         const detItem = document.createElement("li");
         detItem.innerHTML = dText;
         expDetails.appendChild(detItem);
@@ -215,7 +246,7 @@ const setEvents = (events) => {
 
       const achDuration = document.createElement("div");
       achDuration.className = "ach-duration";
-      achDuration.innerHTML = evt.date;
+      achDuration.innerHTML = setLanguage(evt.date);
       achItem.appendChild(achDuration);
 
       li.appendChild(achItem);
@@ -277,35 +308,62 @@ const setCatagoryHeader = (title) => {
 };
 
 function downloadPDF() {
-  const adjustSize = 1;
-  let element = document.getElementById("toPDF");
+  let lastSegment = new URLSearchParams(window.location.search).get("name");
+  const adjustAllSize = 0.8;
+  const adjustTitleSize = 10;
+
+  ////whole page
+  const toPDFid = 'toPDF';
+  let element = document.getElementById(toPDFid);
   element.style.minHeight = "100vh";
 
   element.querySelectorAll("*").forEach((el, index) => {
       let currentSize = window.getComputedStyle(el).fontSize;
-      let newSize = (parseFloat(currentSize) - adjustSize) + "px";
+      let newSize = (parseFloat(currentSize) - adjustAllSize) + "px";
 
       el.style.fontSize = newSize; // Apply new font size
   });
 
+  element.style.minHeight = "100vh";
+
+  // Temporarily expand content to capture full height
+  const originalHeight = element.style.height;
+  element.style.height = "auto";
+
+  ////title name
+  const nameTitleID = 'profileName';
+  let profileName = document.getElementById(nameTitleID);
+  profileName.style.fontSize = (parseFloat(window.getComputedStyle(profileName).fontSize) - adjustTitleSize) + "px";
+
   html2pdf()
       .set({
-          margin: [10, 10, 10, 0], // [top, left, bottom, right] padding in mm
-          filename: 'download.pdf',
-          image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: { scale: 2 },
-          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] } // Ensure content doesn't get cut off}
+          // margin: [10, 10, 0, 10], // [top, left, bottom, right] padding in mm
+          margin: 10,
+          filename: 'resume - '+lastSegment+'.pdf',
+          image: { type: 'jpeg', quality: 1.0 },
+          html2canvas: { 
+            scale: 3,  // Increase scale (default is 1, try 2 or 3 for sharp text)
+            useCORS: true // Fix missing images (if any)
+        },
+          // jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+          jsPDF: { format: [210, element.scrollHeight / 3], unit: 'mm' },
+          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
       })
       .from(element)
       .save()
       .then(() => {
         element.querySelectorAll("*").forEach((el, index) => {
           let currentSize = window.getComputedStyle(el).fontSize;
-          let newSize = (parseFloat(currentSize) + adjustSize + 1) + "px";
+          let newSize = (parseFloat(currentSize) + adjustAllSize + adjustAllSize + adjustAllSize) + "px";
     
           el.style.fontSize = newSize; // Apply new font size
-      });
+        });
+        // Restore original height
+        element.style.height = originalHeight;
+
+        ////title name
+        let profileName = document.getElementById(nameTitleID);
+        profileName.style.fontSize = (parseFloat(window.getComputedStyle(profileName).fontSize) + adjustTitleSize) + "px";
       });
 }
 
@@ -325,4 +383,6 @@ function downloadPDF() {
   setEducation(profileData2.education);
   setCertification(profileData2.certifications);
   // setEvents(profileData2.events);
+
+  setChineseForTitle();
 })();
